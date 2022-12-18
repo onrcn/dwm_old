@@ -8,8 +8,8 @@ static const int swallowfloating    = 0;        /* 1 means swallow floating wind
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 
-static const char *fonts[]          = { "JetBrains Mono:size=13", "JoyPixels:pixelsize=13:antialias=true:autohint=true"};
-static const char dmenufont[]       = "JetBrains Mono:size=13";
+static const char *fonts[]          = { "FiraCode Nerd Font Mono:style=Retina,Regular:size=14", "JoyPixels:pixelsize=14:antialias=true:autohint=true"};
+static const char dmenufont[]       = "FiraCode Nerd Font Mono:style=Retina,Regular:size=14";
 
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
@@ -24,7 +24,7 @@ static char *colors[][3] = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "", "", "", "", "", "", "", "", "ﭮ" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -34,6 +34,8 @@ static const Rule rules[] = {
 	/* class                instance  title           tags mask  isfloating  isterminal  noswallow  fakefullscreen monitor */
 	{ "obs",                NULL,     NULL,           0,         1,          0,           0,        0,              -1 },
 	{ "Lutris",             NULL,     NULL,           0,         1,          0,           0,        0,              -1 },
+	{ "Steam",             NULL,     NULL,           0,         1,          0,           0,        0,              -1 },
+	{ "steam",             NULL,     NULL,           0,         1,          0,           0,        0,              -1 },
 	{ "firefox",   		    NULL,     NULL,           0,         0,          0,          -1,        1,              -1 },
 	{ "St",                 NULL,     NULL,           0,         0,          1,           0,        0,              -1 },
 	{ NULL,                 NULL,     "Event Tester", 0,         0,          0,           1,                        -1 }, /* xev */
@@ -68,15 +70,20 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont};
 static const char *termcmd[]  = { "st", NULL };
 
+#include "movestack.c"
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
+	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+
+	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_f,	   zoom,           {0} },
+	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_s,      incnmaster,     {.i = +1 } },
